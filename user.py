@@ -6,6 +6,10 @@ def make_empty_apikey_file():
         json.dump({"APIKey": "sk-xxxxxxxxxx"}, f, indent=4)
 
 def check_apikey_valid():
+    if not os.path.exists("APIKey.json"):
+        make_empty_apikey_file()
+        return False
+
     with open("APIKey.json", "r") as f:
         data = json.load(f)
         apikey = data.get("APIKey")

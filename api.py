@@ -1,16 +1,22 @@
 import requests
 import json
+import os
 
 import user
 
 url = "https://api.siliconflow.cn/v1/chat/completions"
 models = ["deepseek-ai/DeepSeek-R1-0528-Qwen3-8B"]
 roles = ["user", "assistant", "system"]
-with open("APIKey.json", "r") as f:
-    data = json.load(f)
-    apikey = data.get("APIKey")
+
 
 def post_chat_completions(content: str):
+    if not os.path.exists("APIKey.json"):
+        user.make_empty_apikey_file()
+
+    with open("APIKey.json", "r") as f:
+        data = json.load(f)
+        apikey = data.get("APIKey")
+
     payload = {
         "model": models[0],
         "messages": [
